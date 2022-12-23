@@ -2,45 +2,45 @@
 #include <stdio.h>
 #include <stdbool.h> 
 
-long double fi_function(long double x) {
-    return sqrt(1 - x) - tan(x);
+long double fi_function(long double a) {
+    return sqrt(1 - a) - tan(a);
 }
 
-long double se_function(long double x) {
-    return x + cos(pow(x, 0.52) + 2);
+long double se_function(long double a) {
+    return a + cos(pow(a, 0.52) + 2);
 }
 
-long double fi_iter(long double x) {
-    return 1 - tan(x) * tan(x); // запись 1 функции вида: f(x) = x
+long double fi_iter_func(long double a) {
+    return 1 - tan(a) * tan(a); // запись 1 функции вида: f(a) = a
 }
 
-long double se_iter(long double x) {
-    return -cos(pow(x, 0.52) + 2); // запись 2 функции вида: f(x) = x
+long double se_iter_func(long double a) {
+    return -cos(pow(a, 0.52) + 2); // запись 2 функции вида: f(a) = a
 }
 
-long double fi_derivative(long double x) { // производная от первой функции
-    return -(cos(x) * cos(x) + 2 * sqrt(1 - x))/(2 * sqrt(1 - x) * cos(x) * cos(x));
+long double fi_derivative(long double a) { // производная от первой функции
+    return -(cos(a) * cos(a) + 2 * sqrt(1 - a))/(2 * sqrt(1 - a) * cos(a) * cos(a));
 }
 
-long double se_derivative(long double x) { // производная от второй функции
-    return 1 - (13 * sin(pow(x, 0.52) + 2))/(25 * pow(x, 0.48));
+long double se_derivative(long double a) { // производная от второй функции
+    return 1 - (13 * sin(pow(a, 0.52) + 2))/(25 * pow(a, 0.48));
 }
 
 void fi_dichotomy(long double a, long double b, long double EPS) {
     bool flag = true;
-    long double mid = 0;
+    long double c = 0;
     int cnt = 0;
-    while (abs(a - b) > EPS && flag) {
-        mid = (a + b) / 2; // middle point
-        if (fi_function(mid) == 0) {
+    while (fabs(a - b) > EPS && flag) {
+        c = (a + b) / 2; // cdle point
+        if (fi_function(c) == 0) {
             break;
         }
         else {
-            if (fi_function(mid) * fi_function(a) < 0) {
-                b = mid;
+            if (fi_function(c) * fi_function(a) < 0) {
+                b = c;
             }
-            else if (fi_function(b) * fi_function(mid) < 0) {
-                a = mid;
+            else if (fi_function(b) * fi_function(c) < 0) {
+                a = c;
             }
             cnt++;
         }
@@ -52,25 +52,25 @@ void fi_dichotomy(long double a, long double b, long double EPS) {
         printf("Метод дихотомии не применим. \n");
     }
     else {
-        printf("Метод дихотомии: %.20Lf; Кол-во итераций: %d \n", mid, cnt);
+        printf("Метод дихотомии: %.20Lf; Кол-во итераций: %d \n", c, cnt);
     }
 }
 
 void se_dichotomy(long double a, long double b, long double EPS) {
     bool flag = true;
-    long double mid = 0;
+    long double c = 0;
     int cnt = 0;
-    while (abs(a - b) > EPS && flag) {
-        mid = (a + b) / 2; // middle point
-        if (se_function(mid) == 0 && flag) {
+    while (fabs(a - b) > EPS && flag) {
+        c = (a + b) / 2; // cdle point
+        if (se_function(c) == 0 && flag) {
             break;
         }
         else {
-            if (se_function(mid) * se_function(a) < 0) {
-                b = mid;
+            if (se_function(c) * se_function(a) < 0) {
+                b = c;
             }
-            else if (se_function(b) * se_function(mid) < 0) {
-                a = mid;
+            else if (se_function(b) * se_function(c) < 0) {
+                a = c;
             }
         }
         cnt++;
@@ -82,18 +82,18 @@ void se_dichotomy(long double a, long double b, long double EPS) {
         printf("Метод дихотомии не применим. \n");
     }
     else {
-        printf("Метод дихотомии: %.20Lf; Кол-во итераций: %d \n", mid, cnt);
+        printf("Метод дихотомии: %.20Lf; Кол-во итераций: %d \n", c, cnt);
     }
 }
 
 void fi_iter(long double a, long double b, long double EPS) {
     bool flag = true;
-    long double x = 0.6, x0 = 0.7, y;
+    long double c;
     int cnt = 0;
-    while (abs(x0 - x) > EPS && flag) {
-        y = fi_iter(x0);
-        x0 = x;
-        x = y;
+    while (fabs(b - a) > EPS && flag) {
+        c = fi_iter_func(b);
+        b = a;
+        a = c;
         cnt++;
         if (cnt > 100) {
             flag = false;
@@ -104,18 +104,18 @@ void fi_iter(long double a, long double b, long double EPS) {
         printf("Метод итераций не применим. \n");
     }
     else {
-        printf("Метод итераций: %.20Lf; Кол-во итераций: %d \n", x, cnt);
+        printf("Метод итераций: %.20Lf; Кол-во итераций: %d \n", a, cnt);
     }
 }
 
 void se_iter(long double a, long double b, long double EPS) {
     bool flag = true;
-    long double x = 0.4, x0 = 0.3, y;
+    long double c;
     int cnt = 0;
-    while (abs(x0 - x) > EPS && flag) {
-        y = se_iter(x0);
-        x0 = x;
-        x = y;
+    while (fabs(b - a) > EPS && flag) {
+        c = se_iter_func(b);
+        b = a;
+        a = c;
         cnt++;
         if (cnt > 100) {
             flag = false;
@@ -126,18 +126,18 @@ void se_iter(long double a, long double b, long double EPS) {
         printf("Метод итераций не применим. \n");
     }
     else {
-        printf("Метод итераций: %.20Lf; Кол-во итераций: %d \n", x, cnt);
+        printf("Метод итераций: %.20Lf; Кол-во итераций: %d \n", a, cnt);
     }
 }
 
 void fi_newton(long double a, long double b, long double EPS) {
     bool flag = true;
     int cnt = 0;
-    long double x = 0.2, x0 = 0.1, y;
-    while (abs(x0 - x) > EPS && flag) {
-        y = x - (fi_function(x) / fi_derivative(x));
-        x0 = x;
-        x = y;
+    long double c;
+    while (fabs(b - a) > EPS && flag) {
+        c = a - (fi_function(a) / fi_derivative(a));
+        b = a;
+        a = c; 
         cnt++;
         if (cnt > 100) {
             flag = false;
@@ -147,18 +147,18 @@ void fi_newton(long double a, long double b, long double EPS) {
         printf("Метод Ньютона не применим. \n");
     }
     else {
-        printf("Метод Ньютона: %.20Lf; Кол-во итераций: %d \n", x, cnt);
+        printf("Метод Ньютона: %.20Lf; Кол-во итераций: %d \n", a, cnt);
     }
 }
 
 void se_newton(long double a, long double b, long double EPS) {
     bool flag = true;
     int cnt = 0;
-    long double x = 0.6, x0 = 0.1, y;
-    while (abs(x0 - x) > EPS && flag) {
-        y = x - (se_function(x) / se_derivative(x));
-        x0 = x;
-        x = y;
+    long double c;
+    while (fabs(b - a) > EPS && flag) {
+        c = b - (se_function(b) / se_derivative(b));
+        b = a;
+        a = c; 
         cnt++;
         if (cnt > 100) {
             flag = false;
@@ -168,7 +168,7 @@ void se_newton(long double a, long double b, long double EPS) {
         printf("Метод Ньютона не применим. \n");
     }
     else {
-        printf("Метод Ньютона: %.20Lf; Кол-во итераций: %d \n", x, cnt);
+        printf("Метод Ньютона: %.20Lf; Кол-во итераций: %d \n", a, cnt);
     }
 }
 
