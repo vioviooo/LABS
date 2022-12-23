@@ -47,8 +47,6 @@ int main(void) {
 
             row0 = (-1) * row0 * ((4 * x * x) / ((x0 + 1) * (x0 + 2)));
 
-            // long double eps_curr = eps * abs(row0);
-
             if (abs(row0) < eps) {
                 flag = false;
                 num_of_operations = n;
