@@ -31,7 +31,7 @@ void fi_dichotomy(long double a, long double b, long double EPS) {
     long double c = 0;
     int cnt = 0;
     while (fabs(a - b) > EPS && flag) {
-        c = (a + b) / 2; // cdle point
+        c = (a + b) / 2; // middle point
         if (fi_function(c) == 0) {
             break;
         }
@@ -61,7 +61,7 @@ void se_dichotomy(long double a, long double b, long double EPS) {
     long double c = 0;
     int cnt = 0;
     while (fabs(a - b) > EPS && flag) {
-        c = (a + b) / 2; // cdle point
+        c = (a + b) / 2; // middle point
         if (se_function(c) == 0 && flag) {
             break;
         }
